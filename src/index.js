@@ -1,3 +1,18 @@
+/* I declare that the lab work here submitted is original
+except for source material explicitly acknowledged,
+and that the same or closely related material has not been
+previously submitted for another course.
+I also acknowledge that I am aware of University policy and
+regulations on honesty in academic work, and of the disciplinary
+guidelines and procedures applicable to breaches of such
+policy and regulations, as contained in the website.
+University Guideline on Academic Honesty:
+https://www.cuhk.edu.hk/policy/academichonesty/
+Student Name : HO Kwong Wa
+Student ID : 1155147738
+Class/Section : CSC2720 T04
+Date : 13/10/2023
+*/
 import ReactDOM from "react-dom/client";
 import React from 'react';
 import {
@@ -7,13 +22,22 @@ import {
   Link,
 } from 'react-router-dom';
 
+
+const data = [
+  {filename: "cuhk-2013.jpg", year:2013, remarks: "Sunset over CUHK"}, 
+  {filename: "cuhk-2017.jpg", year:2017, remarks: "Bird's-eye view of CUHK"},
+  {filename: "sci-2013.jpg", year:2013, remarks: "The CUHK Emblem"}, 
+  {filename: "shb-2013.jpg", year:2013, remarks: "The Engineering Buildings"},
+  {filename: "stream-2009.jpg", year:2009, remarks: "Nature hidden in the campus"},
+  ];
+
 class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
         <div>
           <ul>
-            <li> <Link to="/">Home</Link> </li>
+            <li> <Link to="/home">Home</Link> </li>
             <li> <Link to="/gallery">Gallery</Link> </li>
             <li> <Link to="/slideshow">Slideshow</Link> </li>
           </ul>
@@ -22,7 +46,7 @@ class App extends React.Component {
         <hr />
 
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/slideshow" element={<Slideshow />} />
         </Routes>
@@ -36,14 +60,6 @@ class Home extends React.Component {
     return <h2>Home</h2>;
   }
 }
-
-const data = [
-  {filename: "cuhk-2013.jpg", year:2013, remarks: "Sunset over CUHK"}, 
-  {filename: "cuhk-2017.jpg", year:2017, remarks: "Bird's-eye view of CUHK"},
-  {filename: "sci-2013.jpg", year:2013, remarks: "The CUHK Emblem"}, 
-  {filename: "shb-2013.jpg", year:2013, remarks: "The Engineering Buildings"},
-  {filename: "stream-2009.jpg", year:2009, remarks: "Nature hidden in the campus"},
-  ];
 
 class Gallery extends React.Component {
   render() {
@@ -62,18 +78,18 @@ class FileCard extends React.Component {
       this.state = { selected: -1 };
       }
   
-  handleClick(index, e) {
-      if (this.state.selected !== index) {
-          this.setState({ selected: index });
-        } else {
-          this.setState({ selected: -1 });
-        }
+  handleOnMouseEnter(index, e) {
+    this.setState({ selected: index });
+  }
+
+  handleOnMouseLeave(index, e) {
+    this.setState({ selected: -1 });
   }
 
   render() {
       let i = this.props.i;
       return (
-              <div className="card d-inline-block m-2" style={{width:this.state.selected==i ? "100%" : 200}} onClick={(e) => this.handleClick(i, e)}>
+              <div className="card d-inline-block m-2" style={{width:this.state.selected==i ? 400 : 200}} onMouseEnter={(e) => this.handleOnMouseEnter(i, e)} onMouseLeave={(e) => this.handleOnMouseLeave(i, e)}>
                   <img src={"images/"+data[i].filename} className="w-100" />
                   <div className="card-body">
                       <h6 className="card-title">{data[i].filename}</h6>
