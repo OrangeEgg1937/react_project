@@ -100,8 +100,11 @@ class FileCard extends React.Component {
   }
 }
 
+let order = [0,1,2,3,4]; // Define a order array to store the order of the images
+
 class Slideshow extends React.Component {
-  
+  static interval = 1000; // Define the time interval between each image
+  // static order = [0,1,2,3,4]; // Define a order array to store the order of the images
   render() {
     return (
       <div>
@@ -115,10 +118,19 @@ class Slideshow extends React.Component {
                <div class="col m-0"><button type="button" class="m-0">Shuffle</button></div>
             </div>
             <div class="row">
-              <div class="col"><img src="images/cuhk-2013.jpg"/></div>
+              <div class="col">{order[0]}</div>
             </div>
         </div>
       </div>
+    );
+  }
+}
+
+class DisplayImage extends React.Component {
+  
+  render() {
+    return (
+      <div>Test:{this.props.i}</div>
     );
   }
 }
