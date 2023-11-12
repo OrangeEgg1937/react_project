@@ -37,7 +37,7 @@ class App extends React.Component {
       <BrowserRouter>
         <div>
           <ul>
-            <li> <Link to="/home">Home</Link> </li>
+            <li> <Link to="/">Home</Link> </li>
             <li> <Link to="/gallery">Gallery</Link> </li>
             <li> <Link to="/slideshow">Slideshow</Link> </li>
           </ul>
@@ -46,18 +46,28 @@ class App extends React.Component {
         <hr />
 
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/slideshow" element={<Slideshow />} />
+          <Route path="*" element={<NoMatch />} />
         </Routes>
       </BrowserRouter>
     );
   }
 }
 
+class NoMatch extends React.Component {
+  render() {
+    return <main><h2>404 - Not Found</h2></main>;
+  }
+}
+
 class Home extends React.Component {
   render() {
-    return <h2>Home</h2>;
+    return (<main>
+      <h2>Home</h2>
+      <img src={"diagram.jpg"} className="w-100" />
+      </main>);
   }
 }
 
@@ -100,41 +110,115 @@ class FileCard extends React.Component {
   }
 }
 
-let order = [0,1,2,3,4]; // Define a order array to store the order of the images
-
 class Slideshow extends React.Component {
-  static interval = 1000; // Define the time interval between each image
-  // static order = [0,1,2,3,4]; // Define a order array to store the order of the images
+  static order = [0,1,2,3,4]; // Define a order array to store the order of the images
+  static currentImage = 0; // Define the current image index to 0
+  // Define the state of the slideshow
+  constructor(props) {
+    super(props);
+    this.state = {
+        action: -1, // Define the action, -1 means init, 0 means start, 1 means stop, 2 means shuffle
+        isPlayingSlideShow: false, // Set the state to false, when it is first time played, set the state to true
+        isStopedSlideShow: false, // Set the state to false, when it is stopped, set the state to true
+        interval: 1500 // Set the interval to 1500, define the time interval between each image
+    }
+  }
+
+  // Define the function to chagne the inertval
+  changeInterval(time, e) {
+    let newInterval = this.state.interval + time;
+    // Set the lower bound of the interval
+    if (newInterval < 200) {
+      newInterval = 200;
+    }
+    Slideshow.CurrentInterval = newInterval;
+    this.setState({interval: newInterval});
+
+    // Update the new time interval
+    clearInterval(this.interval);
+
+    // Start interval
+    this.interval = setInterval(() => {
+      this.changeImage();
+    }, this.state.interval);
+  }
+
+  // Define the function to change the current index
+  changeImage() {
+    if (Slideshow.currentImage == 4) {
+      Slideshow.currentImage = 0;
+    }else {
+      Slideshow.currentImage++;
+    }
+    // Call the class to render the new image
+    this.setState({action: 0});
+  }
+
+  // Start the slideshow
+  start(e) {
+    // To prevent the slideshow from starting again
+    if (this.state.isPlayingSlideShow) { return; }
+
+    // Set state to start the slideshow
+    this.setState({isPlayingSlideShow: true, action: 0});
+
+    // Start interval
+    this.interval = setInterval(() => {
+      this.changeImage();
+    }, this.state.interval);
+  }
+
+  // Stop the slideshow
+  stop(e) {
+    // Set state to stop the slideshow
+    this.setState({isPlayingSlideShow: false, action: 1});
+
+    // Stop interval
+    clearInterval(this.interval);
+  }
+
+  // Base on Fisher–Yates shuffle
+  shuffle(e) {
+    let length = Slideshow.order.length;
+
+    // shuffle the order array
+    for (let i = length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = Slideshow.order[i];
+      Slideshow.order[i] = Slideshow.order[j];
+      Slideshow.order[j] = temp;
+    }
+
+    this.setState({action: 2});
+  }
+
   render() {
+    let currentIndex = Slideshow.order[Slideshow.currentImage];
+
     return (
+      <main>
       <div>
-        <h2>Slideshow</h2>
-        <div class="container-fluid">
-            <div class="row row-cols-auto">
-               <div class="col m-0"><button type="button" class="m-0">Start slideshow</button></div>
-               <div class="col m-0"><button type="button" class="m-0">Stop slideshow</button></div>
-               <div class="col m-0"><button type="button" class="m-0">Slower</button></div>
-               <div class="col m-0"><button type="button" class="m-0">Faster</button></div>
-               <div class="col m-0"><button type="button" class="m-0">Shuffle</button></div>
+        <h2>Slideshow:</h2>
+        <div className="container-fluid">
+            <div className="row row-cols-auto">
+               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.start(e)}>Start slideshow</button></div>
+               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.stop(e)}>Stop slideshow</button></div>
+               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.changeInterval(+200,e)}>Slower</button></div>
+               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.changeInterval(-200,e)}>Faster</button></div>
+               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.shuffle(e)}>Shuffle</button></div>
             </div>
-            <div class="row">
-              <div class="col">{order[0]}</div>
+            <div className="row">
+              <div className="col"><img src={"images/"+data[currentIndex].filename}/></div>
+            </div>
+            <div className="row">
+              <div className="col">{data[currentIndex].filename}, {data[currentIndex].remarks}, {data[currentIndex].year}</div>
             </div>
         </div>
       </div>
+      </main>
     );
   }
 }
-
-class DisplayImage extends React.Component {
-  
-  render() {
-    return (
-      <div>Test:{this.props.i}</div>
-    );
-  }
-}
-
 
 const root = ReactDOM.createRoot(document.querySelector('#app'));
 root.render(<App />);
