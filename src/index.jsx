@@ -106,7 +106,18 @@ class Slideshow extends React.Component {
     return (
       <div>
         <h2>Slideshow</h2>
-        <button type="button" class="btn btn-primary">Test</button>
+        <div class="container-fluid">
+            <div class="row row-cols-auto">
+               <div class="col m-0"><button type="button" class="m-0">Start slideshow</button></div>
+               <div class="col m-0"><button type="button" class="m-0">Stop slideshow</button></div>
+               <div class="col m-0"><button type="button" class="m-0">Slower</button></div>
+               <div class="col m-0"><button type="button" class="m-0">Faster</button></div>
+               <div class="col m-0"><button type="button" class="m-0">Shuffle</button></div>
+            </div>
+            <div class="row">
+              <div class="col"><img src="images/cuhk-2013.jpg"/></div>
+            </div>
+        </div>
       </div>
     );
   }
