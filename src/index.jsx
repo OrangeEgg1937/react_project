@@ -15,43 +15,70 @@ Date : 13/10/2023
 */
 import ReactDOM from "react-dom/client";
 import React from 'react';
+import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import {
   BrowserRouter,
   Routes,
   Route,
   Link,
 } from 'react-router-dom';
+import "./index.css";
 
 
 const data = [
-  {filename: "cuhk-2013.jpg", year:2013, remarks: "Sunset over CUHK"}, 
-  {filename: "cuhk-2017.jpg", year:2017, remarks: "Bird's-eye view of CUHK"},
-  {filename: "sci-2013.jpg", year:2013, remarks: "The CUHK Emblem"}, 
-  {filename: "shb-2013.jpg", year:2013, remarks: "The Engineering Buildings"},
-  {filename: "stream-2009.jpg", year:2009, remarks: "Nature hidden in the campus"},
-  ];
+  { filename: "cuhk-2013.jpg", year: 2013, remarks: "Sunset over CUHK" },
+  { filename: "cuhk-2017.jpg", year: 2017, remarks: "Bird's-eye view of CUHK" },
+  { filename: "sci-2013.jpg", year: 2013, remarks: "The CUHK Emblem" },
+  { filename: "shb-2013.jpg", year: 2013, remarks: "The Engineering Buildings" },
+  { filename: "stream-2009.jpg", year: 2009, remarks: "Nature hidden in the campus" },
+];
 
 class App extends React.Component {
   render() {
     return (
-      <BrowserRouter>
-        <div>
-          <ul>
-            <li> <Link to="/">Home</Link> </li>
-            <li> <Link to="/gallery">Gallery</Link> </li>
-            <li> <Link to="/slideshow">Slideshow</Link> </li>
-          </ul>
-        </div>
-
-        <hr />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/slideshow" element={<Slideshow />} />
-          <Route path="*" element={<NoMatch />} />
-        </Routes>
-      </BrowserRouter>
+      <div>
+        <h1>Simple SPA</h1>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link href="#features">Features</Nav.Link>
+                <Nav.Link href="#pricing">Pricing</Nav.Link>
+                <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    Another action
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action/3.4">
+                    Separated link
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+              <Nav>
+                <Nav.Link href="#deets">More deets</Nav.Link>
+                <Nav.Link eventKey={2} href="#memes">
+                  Dank memes
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+        <BrowserRouter>
+          <li className="nav-item"> <Link className="nav-link" to="/">Home</Link> </li>
+          <li className="nav-item"> <Link className="nav-link" to="/gallery">Gallery</Link> </li>
+          <li className="nav-item"> <Link className="nav-link" to="/slideshow">Slideshow</Link> </li>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/slideshow" element={<Slideshow />} />
+            <Route path="*" element={<NoMatch />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     );
   }
 }
@@ -67,27 +94,27 @@ class Home extends React.Component {
     return (<main>
       <h2>Home</h2>
       <img src={"diagram.jpg"} className="w-100" />
-      </main>);
+    </main>);
   }
 }
 
 class Gallery extends React.Component {
   render() {
     return (
-        <main className="container">
-            {data.map((file,index) => <FileCard i={index} key={index}/>)}
-        </main>
+      <main className="container">
+        {data.map((file, index) => <FileCard i={index} key={index} />)}
+      </main>
     );
   }
 }
 
 class FileCard extends React.Component {
-    
+
   constructor(props) {
-      super(props);
-      this.state = { selected: -1 };
-      }
-  
+    super(props);
+    this.state = { selected: -1 };
+  }
+
   handleOnMouseEnter(index, e) {
     this.setState({ selected: index });
   }
@@ -97,30 +124,30 @@ class FileCard extends React.Component {
   }
 
   render() {
-      let i = this.props.i;
-      return (
-              <div className="card d-inline-block m-2" style={{width:this.state.selected == i ? 400 : 200}} onMouseEnter={(e) => this.handleOnMouseEnter(i, e)} onMouseLeave={(e) => this.handleOnMouseLeave(i, e)}>
-                  <img src={"images/"+data[i].filename} className="w-100" />
-                  <div className="card-body">
-                      <h6 className="card-title">{data[i].filename}</h6>
-                      <p className="card-text">{data[i].year}</p>
-                  </div>
-              </div>
-      );
+    let i = this.props.i;
+    return (
+      <div className="card d-inline-block m-2" style={{ width: this.state.selected == i ? 400 : 200 }} onMouseEnter={(e) => this.handleOnMouseEnter(i, e)} onMouseLeave={(e) => this.handleOnMouseLeave(i, e)}>
+        <img src={"images/" + data[i].filename} className="w-100" />
+        <div className="card-body">
+          <h6 className="card-title">{data[i].filename}</h6>
+          <p className="card-text">{data[i].year}</p>
+        </div>
+      </div>
+    );
   }
 }
 
 class Slideshow extends React.Component {
-  static order = [0,1,2,3,4]; // Define a order array to store the order of the images
+  static order = [0, 1, 2, 3, 4]; // Define a order array to store the order of the images
   static currentImage = 0; // Define the current image index to 0
   // Define the state of the slideshow
   constructor(props) {
     super(props);
     this.state = {
-        action: -1, // Define the action, -1 means init, 0 means start, 1 means stop, 2 means shuffle
-        isPlayingSlideShow: false, // Set the state to false, when it is first time played, set the state to true
-        isStopedSlideShow: false, // Set the state to false, when it is stopped, set the state to true
-        interval: 1500 // Set the interval to 1500, define the time interval between each image
+      action: -1, // Define the action, -1 means init, 0 means start, 1 means stop, 2 means shuffle
+      isPlayingSlideShow: false, // Set the state to false, when it is first time played, set the state to true
+      isStopedSlideShow: false, // Set the state to false, when it is stopped, set the state to true
+      interval: 1500 // Set the interval to 1500, define the time interval between each image
     }
   }
 
@@ -132,7 +159,7 @@ class Slideshow extends React.Component {
       newInterval = 200;
     }
     Slideshow.CurrentInterval = newInterval;
-    this.setState({interval: newInterval});
+    this.setState({ interval: newInterval });
 
     // Update the new time interval
     clearInterval(this.interval);
@@ -147,11 +174,11 @@ class Slideshow extends React.Component {
   changeImage() {
     if (Slideshow.currentImage == 4) {
       Slideshow.currentImage = 0;
-    }else {
+    } else {
       Slideshow.currentImage++;
     }
     // Call the class to render the new image
-    this.setState({action: 0});
+    this.setState({ action: 0 });
   }
 
   // Start the slideshow
@@ -160,7 +187,7 @@ class Slideshow extends React.Component {
     if (this.state.isPlayingSlideShow) { return; }
 
     // Set state to start the slideshow
-    this.setState({isPlayingSlideShow: true, action: 0});
+    this.setState({ isPlayingSlideShow: true, action: 0 });
 
     // Start interval
     this.interval = setInterval(() => {
@@ -171,7 +198,7 @@ class Slideshow extends React.Component {
   // Stop the slideshow
   stop(e) {
     // Set state to stop the slideshow
-    this.setState({isPlayingSlideShow: false, action: 1});
+    this.setState({ isPlayingSlideShow: false, action: 1 });
 
     // Stop interval
     clearInterval(this.interval);
@@ -189,7 +216,7 @@ class Slideshow extends React.Component {
       Slideshow.order[j] = temp;
     }
 
-    this.setState({action: 2});
+    this.setState({ action: 2 });
   }
 
   render() {
@@ -197,24 +224,24 @@ class Slideshow extends React.Component {
 
     return (
       <main>
-      <div>
-        <h2>Slideshow:</h2>
-        <div className="container-fluid">
+        <div>
+          <h2>Slideshow:</h2>
+          <div className="container-fluid">
             <div className="row row-cols-auto">
-               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.start(e)}>Start slideshow</button></div>
-               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.stop(e)}>Stop slideshow</button></div>
-               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.changeInterval(+200,e)}>Slower</button></div>
-               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.changeInterval(-200,e)}>Faster</button></div>
-               <div className="col m-0"><button type="button" className="m-0" onClick={(e)=>this.shuffle(e)}>Shuffle</button></div>
+              <div className="col m-0"><button type="button" className="m-0" onClick={(e) => this.start(e)}>Start slideshow</button></div>
+              <div className="col m-0"><button type="button" className="m-0" onClick={(e) => this.stop(e)}>Stop slideshow</button></div>
+              <div className="col m-0"><button type="button" className="m-0" onClick={(e) => this.changeInterval(+200, e)}>Slower</button></div>
+              <div className="col m-0"><button type="button" className="m-0" onClick={(e) => this.changeInterval(-200, e)}>Faster</button></div>
+              <div className="col m-0"><button type="button" className="m-0" onClick={(e) => this.shuffle(e)}>Shuffle</button></div>
             </div>
             <div className="row">
-              <div className="col"><img src={"images/"+data[currentIndex].filename}/></div>
+              <div className="col"><img src={"images/" + data[currentIndex].filename} /></div>
             </div>
             <div className="row">
               <div className="col">{data[currentIndex].filename}, {data[currentIndex].remarks}, {data[currentIndex].year}</div>
             </div>
+          </div>
         </div>
-      </div>
       </main>
     );
   }
