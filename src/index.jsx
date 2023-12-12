@@ -38,39 +38,23 @@ class App extends React.Component {
     return (
       <div>
         <h1>Simple SPA</h1>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Container>
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link href="#features">Features</Nav.Link>
-                <Nav.Link href="#pricing">Pricing</Nav.Link>
-                <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
-                    Another action
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">
-                    Separated link
-                  </NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-              <Nav>
-                <Nav.Link href="#deets">More deets</Nav.Link>
-                <Nav.Link eventKey={2} href="#memes">
-                  Dank memes
-                </Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
         <BrowserRouter>
-          <li className="nav-item"> <Link className="nav-link" to="/">Home</Link> </li>
-          <li className="nav-item"> <Link className="nav-link" to="/gallery">Gallery</Link> </li>
-          <li className="nav-item"> <Link className="nav-link" to="/slideshow">Slideshow</Link> </li>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="me-auto">
+                <Nav.Item><Link to="/">Home</Link></Nav.Item>
+                <Nav.Item><Link to="/gallery">Features</Link></Nav.Item>
+                <Nav.Item><Link to="/slideshow">Slideshow</Link></Nav.Item>
+                </Nav>
+                <Nav>
+                <Nav.Item><Link to="/login">Login</Link></Nav.Item>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/gallery" element={<Gallery />} />
