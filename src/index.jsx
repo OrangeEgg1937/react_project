@@ -120,7 +120,7 @@ class FileCard extends React.Component {
     );
   }
 }
-
+//a
 class Slideshow extends React.Component {
   static order = [0, 1, 2, 3, 4]; // Define a order array to store the order of the images
   static currentImage = 0; // Define the current image index to 0
