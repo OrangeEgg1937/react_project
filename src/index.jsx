@@ -8,8 +8,8 @@ guidelines and procedures applicable to breaches of such
 policy and regulations, as contained in the website.
 University Guideline on Academic Honesty:
 https://www.cuhk.edu.hk/policy/academichonesty/
-Student Name : HO Kwong Wa
-Student ID : 1155147738
+Student Name :
+Student ID :
 Class/Section : CSC2720 T04
 Date : 13/10/2023
 */
@@ -23,7 +23,7 @@ import {
   Link,
 } from 'react-router-dom';
 import "./index.css";
-
+// import "./mongodb_connection.js"
 
 const data = [
   { filename: "cuhk-2013.jpg", year: 2013, remarks: "Sunset over CUHK" },
